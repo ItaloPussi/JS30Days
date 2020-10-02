@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="title">
+      Type Ahead
+      <br/>
+      <small class="day">Day 06</small>
+  </h1>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+
+  <style>
+    .title{
+      transform-origin: bottom;
+      transform:rotateZ(20deg);
+      width:100px;
+      position: absolute;
+      right:30px;
+      top:0px;
+      font-size:1.2rem;
+    }
+
+    .title small{
+      display: inline-block;
+      width:100px;
+      text-align: center;
+      font-size:1rem;
+    }
+  </style>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const allCities = []
+let filterCities = []
+
+async function getData(){
+   const prom = await fetch(endpoint)
+   cities = await prom.json()
+   allCities.push(...cities)
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function renderCities(value){
+ const regex = new RegExp(value, "gi")
+
+ const html = filterCities.map(place=>{
+  const cityName = place.city.replace(regex,`<span class="hl">${value}</span>`)
+  const stateName = place.state.replace(regex,`<span class="hl">${value}</span>`)
+  return `
+    <li>
+      <span class="name">${cityName}, ${stateName}</span>
+      <span class="population">${numberWithCommas(place.population)}</span>
+    </li>
+  `
+ }).join("")
+
+ suggestions.innerHTML = html;
+}
+
+function findMatches(){
+  const value = this.value.toLowerCase()
+
+  if (value.length < 3) {
+    filterCities = []
+    renderCities(value)
+    return false
+  }
+
+  filterCities = allCities.filter(city =>{
+    const selectedCity = city.city.toLowerCase()
+    const selectedState = city.state.toLowerCase()
+    return (selectedCity.includes(value) || selectedState.includes(value))
+  })
+  renderCities(value)
+}
+
+const searchInput = document.querySelector(".search")
+searchInput.addEventListener("keyup", findMatches)
+const suggestions = document.querySelector(".suggestions")
+getData()
+</script>
+</body>
+</html>
