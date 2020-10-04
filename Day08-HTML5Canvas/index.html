@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+	<h1 class="title">
+      HTML5 Canvas 
+      <br/>
+      <small class="day">Day 08</small>
+  </h1>
+
+
+   <style>
+    .title{
+      transform-origin: bottom;
+      transform:rotateZ(20deg);
+      width:100px;
+      position: absolute;
+      right:30px;
+      top:0px;
+      font-size:1.2rem;
+    }
+
+    .title small{
+      display: inline-block;
+      width:100px;
+      text-align: center;
+      font-size:1rem;
+    }
+  </style>
+
+<canvas id="draw" width="800" height="800"></canvas>
+
+<script>
+	const canvas = document.querySelector("#draw")
+	const ctx = canvas.getContext("2d")
+
+	canvas.width = window.innerWidth
+	canvas.height = window.innerHeight
+	ctx.lineJoin = "round"
+	ctx.lineCap = "round"
+	ctx.lineWidth = 1;
+
+	let isDrawing = false
+	let started = false;
+	let lastX = 0
+	let lastY = 0
+	let hue = 0
+	let direction = true
+	function updateLastPosition({offsetX, offsetY}){
+		lastX = offsetX
+		lastY = offsetY
+	}
+
+	function draw(e){
+		if(!isDrawing) return
+
+		if(started){
+			updateLastPosition(e)
+			ctx.lineWidth = 11
+
+			started = false;
+		}
+
+		ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+
+		ctx.beginPath()
+
+		//start from
+		ctx.moveTo(lastX,lastY)
+
+		//move from
+		ctx.lineTo(e.offsetX, e.offsetY)
+		ctx.stroke()
+
+		updateLastPosition(e)
+		hue = hue==360 ? 0 : hue+=1
+
+		direction = (ctx.lineWidth >= 100 || ctx.lineWidth <=10) ? !direction : direction
+		direction ? ctx.lineWidth++ : ctx.lineWidth--
+
+	}
+
+	canvas.addEventListener("mousemove", draw)
+	canvas.addEventListener("mousedown", (e) => isDrawing = true)
+	canvas.addEventListener("mousedown", (e) => started = true)
+	canvas.addEventListener("mouseup", () => isDrawing = false)
+	canvas.addEventListener("mouseout", () => isDrawing = false)
+
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>
