@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+    <h1 class="title">
+      DevTools 
+      <br/>
+      <small class="day">Day 09</small>
+  </h1>
+
+
+   <style>
+    .title{
+      transform-origin: bottom;
+      transform:rotateZ(20deg);
+      width:100px;
+      position: absolute;
+      right:30px;
+      top:0px;
+      font-size:1.6rem;
+    }
+
+    .title small{
+      display: inline-block;
+      width:100px;
+      text-align: center;
+      font-size:1.3rem;
+    }
+  </style>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+     // clearing
+    console.clear()
+
+    // Regular
+    console.log("Regular text")
+    
+    // Interpolated
+    const type = "Interpolated"
+    console.log(`Hello, I am ${type} text`)
+    
+    // Styled
+    console.log("%c Styled text here", "font-size:2rem;background-color:black;")
+
+    // warning!
+    console.warn("Warn here")
+
+    // Error :|
+    console.error("Error here")
+
+    // Info
+    console.info("Info")
+
+    // Testing
+    console.assert(1==2, "1 == 2? Is u sure?")
+
+   
+    // Viewing DOM Elements
+    console.dir(document.querySelector("p"))
+
+    // Grouping together
+    dogs.forEach(dog =>{
+      console.groupCollapsed(`${dog.name}`)
+        console.log(`The name of the dog is ${dog.name}`)
+        console.log(`The ${dog.name} has ${dog.age} years`)
+      console.groupEnd(`${dog.name}`)
+    })
+
+    // counting
+    console.count("Wes")
+    console.count("Wes")
+    console.count("Wes")
+    console.count("Flávio")
+    console.count("Flávio")
+    console.count("Flávio")
+    console.count("Flávio")
+    console.count("Flávio")
+    console.count("Wes")
+    console.count("Wes")
+    console.count("Wes")
+
+    // timing
+    console.time("fetching data")
+    fetch("https://api.github.com/users/italopussi")
+    .then(data=> data.json())
+    .then(data =>{
+      console.timeEnd("fetching data")
+    })
+
+    //table
+    console.table(dogs)
+  </script>
+</body>
+</html>
