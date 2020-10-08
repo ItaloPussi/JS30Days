@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+	<h1 class="title">
+      Key Detection
+      <br/>
+      <small class="day">Day 12</small>
+  </h1>
+
+  <style>
+  	.title{
+      transform-origin: bottom;
+      transform:rotateZ(20deg);
+      width:100px;
+      position: absolute;
+      right:80px;
+      top:0px;
+      font-size:1.6rem;
+    }
+
+    .title small{
+      display: inline-block;
+      width:100px;
+      text-align: center;
+      font-size:1.3rem;
+    }
+    *{
+    	pointer-events: none;
+    }
+  </style>
+<script>
+	const pressed = []
+	const secretCode = "italo pussi"
+	window.addEventListener("keyup", (e)=>{
+		pressed.push(e.key)
+		pressed.splice(-secretCode.length -1, pressed.length - secretCode.length)
+		if(pressed.join("").includes(secretCode)){
+			cornify_add()
+		}
+	})
+</script>
+</body>
+</html>
