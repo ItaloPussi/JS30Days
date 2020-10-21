@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+	<h1 class="title">
+      Event Things
+      <br/>
+      <small class="day">Day 25</small>
+  </h1>
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after { 
+    box-sizing: inherit; 
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+
+  .title{
+	  transform-origin: bottom;
+	  transform:rotateZ(20deg);
+	  width:100px;
+	  position: absolute;
+	  right:20px;
+	  top:40px;
+	  font-size:1.2rem;
+	  color:white;
+	}
+
+	.title small{
+	  display: inline-block;
+	  width:100px;
+	  text-align: center;
+	  font-size:1rem;
+	}
+
+</style>
+
+<button></button>
+<script>
+	const divs = document.querySelectorAll("div")
+
+	function logText(e){
+		// e.stopPropagation()
+		console.log(this.classList.value)
+	}
+
+
+	divs.forEach(div=>div.addEventListener("click", logText, {
+		capture:false,
+		once:true
+	}))
+</script>
+</body>
+</html>
