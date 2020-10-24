@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<h1 class="title">
+      Video Speed Controller
+      <br/>
+      <small class="day">Day 28</small>
+  </h1>
+  <div class="wrapper">
+    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <div class="speed">
+      <div class="speed-bar">1×</div>
+    </div>
+  </div>
+
+<script>
+	const video = document.querySelector("video")
+	const speedContainer = document.querySelector(".speed")
+	const speedBar = document.querySelector(".speed-bar")
+	let isMoving = false
+
+	function handleUpdate(e){
+		percentage = (100/410*e.offsetY).toFixed(2)
+		speed = (percentage / 25).toFixed(2)
+		if(speed<0.5){
+			speed = 0.5
+			percentage = "12.5%"
+		}
+		speedBar.style.height = percentage+"%"
+		
+		speedBar.textContent = speed+'x'
+		video["playbackRate"] = speed
+	}
+	speedContainer.addEventListener("mouseleave", ()=>{
+		isMoving=false
+	})
+	speedContainer.addEventListener("mousemove", (e)=> {isMoving && handleUpdate(e)})
+	speedContainer.addEventListener("mouseup", ()=>{
+		isMoving=false
+	})
+	speedContainer.addEventListener("mousedown", (e)=>{
+		isMoving=true
+		handleUpdate(e)
+	})
+</script>
+</body>
+</html>
