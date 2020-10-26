@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whack A Mole!</title>
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="title">
+      Whack a Mole
+      <br/>
+      <small class="day">Day 30</small>
+  </h1>
+
+  <h1>Whack-a-mole! <span class="score">0</span></h1>
+  <div class="column">
+    <button class="startButton" onClick="startGame()">Start!</button>
+    <div class="highscore">Highscore: <span class="highscoreValue">0</span></div>
+    <div class="lifes">
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+      <div class="life"></div>
+    </div>
+  </div>
+
+  <div class="game">
+    <div class="hole hole1">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole2">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole3">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole4">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole5">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole6">
+      <div class="mole"></div>
+    </div>
+  </div>
+
+<script>
+  const holes = document.querySelectorAll('.hole');
+  const scoreBoard = document.querySelector('.score');
+  const moles = document.querySelectorAll('.mole');
+  const highscoreValueDisplay = document.querySelector(".highscoreValue")
+  const lifes = document.querySelector(".lifes")
+
+  let highscore = localStorage.getItem("whackHighscore") == null ? 0 : parseInt(localStorage.getItem("whackHighscore"))
+  highscoreValueDisplay.textContent = highscore
+
+  let lastHole;
+  let lifesLeft = 10
+  let score = 0
+  function randomTime(min, max){
+    return Math.round(Math.random()*(max-min) + min)
+  }
+
+  function randomHole(holes){
+    let index = Math.floor(Math.random()*holes.length)
+    let hole = holes[index]
+
+    while(hole==lastHole){
+      index = Math.floor(Math.random()*holes.length)
+      hole = holes[index]
+    }
+
+    lastHole = hole
+    return hole
+  }
+
+  function loseALife(){
+    lifesLeft-=1
+    lifes.children[lifesLeft].style.transform = "translateY(30px)"
+
+  }
+  function peep(){
+    const time = randomTime(500,1000)
+    const hole = randomHole(holes)
+    hole.classList.add("up")
+
+    setTimeout(()=>{
+      if(hole.classList.contains("up")){
+        hole.classList.remove("up")
+        loseALife()
+      }
+      if(lifesLeft>0) peep()
+    if(lifesLeft<=0) verifyHighscore()
+    },time)
+
+  }
+
+  function startGame(){
+    score = 0
+    scoreBoard.textContent = 0
+    lifesLeft = 10
+    peep()
+  }
+
+  function bonk(e){
+    if(!e.isTrusted) return
+    score++
+    this.parentNode.classList.remove('up');
+    scoreBoard.textContent = score
+    if(lifesLeft<=0) verifyHighscore()
+
+  }
+
+  function verifyHighscore(){
+    if(score>highscore){
+        localStorage.setItem("whackHighscore", score)
+        highscore = score
+        highscoreValueDisplay.textContent = highscore
+      }
+  }
+
+
+  moles.forEach(mole=> mole.addEventListener("click", bonk))
+</script>
+</body>
+</html>

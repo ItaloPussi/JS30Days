@@ -1,0 +1,135 @@
+html {
+  box-sizing: border-box;
+  font-size: 10px;
+  background: #ffc600;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Amatic SC', cursive;
+}
+
+h1 {
+  text-align: center;
+  font-size: 10rem;
+  line-height: 1;
+  margin-bottom: 0;
+}
+.column{
+  width:100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.startButton,.highscore{
+  font-size:7rem;
+  border:4px solid #c29702;
+  border-left:none;
+  background:#ffc600;
+  font-family: 'Amatic SC', cursive;
+  cursor:pointer;
+  margin-bottom: 10px;
+}
+
+.startButton{
+  width:150px;
+}
+
+.highscore{
+  width:290px;
+  cursor:default;
+}
+
+
+.startButton:hover{
+  background-color: #c29702;
+}
+.score {
+  background: rgba(255,255,255,0.2);
+  padding: 0 3rem;
+  line-height: 1;
+  border-radius: 1rem;
+}
+
+.lifes{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  width:300px;
+  height:30px;
+  overflow: hidden;
+}
+.life{
+    background-image: url('mole.svg');
+    background-size: cover;
+    width:30px;
+    height:30px;
+    opacity: 0.7;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.game {
+  width: 600px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  margin-top: -150px;
+}
+
+.hole {
+  flex: 1 0 33.33%;
+  overflow: hidden;
+  position: relative;
+}
+
+.hole:after {
+  display: block;
+  background: url(dirt.svg) bottom center no-repeat;
+  background-size: contain;
+  content: '';
+  width: 100%;
+  height:70px;
+  position: absolute;
+  z-index: 2;
+  bottom: -30px;
+}
+
+.mole {
+  background: url('mole.svg') bottom center no-repeat;
+  background-size: 60%;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  transition:all 0.4s;
+}
+
+.hole.up .mole {
+  top: 0;
+}
+
+.title{
+  transform-origin: bottom;
+  transform:rotateZ(20deg);
+  width:100px;
+  position: absolute;
+  right:70px;
+  top:10px;
+  font-size:3rem;
+  color:red;
+  font-family: "Georgia", arial, sans-serif;
+}
+
+.title small{
+  display: inline-block;
+  width:100px;
+  text-align: center;
+  font-size:2rem;
+}
